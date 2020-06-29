@@ -1,0 +1,23 @@
+variables:
+  USER: gitlab
+
+build:
+  stage: build
+  image: docker:stable
+  script:
+    - docker build -t coin_converter:latest --no-cache .
+  only:
+    - master
+
+test:
+  stage: test
+  image: docker:stable
+  script:
+    - docker run --rm coin_converter:latest -f monero -t eur -a 10
+    - docker rmi -f coin_converter
+  only:
+    - master
+
+
+
+
